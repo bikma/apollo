@@ -1,10 +1,12 @@
+import './index.css';
+
+import * as serviceWorker from './serviceWorker';
+
+import { ApolloProvider } from "@apollo/react-hooks";
+import App from './App';
+import Client from './client'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { ApolloProvider } from "@apollo/react-hooks";
-import Client from './client'
 
 const WrappedApp = (
 	<ApolloProvider client={Client}>
