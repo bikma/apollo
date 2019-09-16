@@ -1,0 +1,9 @@
+{
+  "extends": "react-app",
+  "rules": {
+    "quotes": ["error", "single"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "sort-keys": 2,
+    "sort-imports": 2
+  }
+}
