@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders data 1`] = `
+<div>
+  <p>
+    example
+  </p>
+</div>
+`;
+
+exports[`App renders empty 1`] = `
+<div>
+  <p />
+</div>
+`;
+
+exports[`App renders error 1`] = `
+<div>
+  <div
+    data-testid="error"
+  >
+    Network error: Something went wrong
+  </div>
+</div>
+`;
+
+exports[`App renders loading 1`] = `
+<div>
+  <div
+    data-testid="loading"
+  >
+    Loading
+  </div>
+</div>
+`;
