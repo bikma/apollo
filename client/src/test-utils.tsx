@@ -1,16 +1,24 @@
 import * as React from 'react'
 
-import { act, cleanup, render, wait } from '@testing-library/react'
+import { MockedProvider, MockedResponse } from '@apollo/react-testing'
+import {
+  RenderResult,
+  act,
+  cleanup,
+  render,
+  wait
+} from '@testing-library/react'
 
-import { MockedProvider } from '@apollo/react-testing'
-import { RenderResult } from '@testing-library/react'
+// import wait from "waait"
 
 interface It {
   component: JSX.Element
-  mocks: Array<any>
+  mocks: MockedResponse[]
   name: string
-  wait?: number
+  loading?: boolean
   callback?: (response: RenderResult) => void
+  snapshot?: boolean
+  wait_for_testid?: string
 }
 
 interface Suite {
@@ -31,9 +39,16 @@ export const runSuites = (suites: Array<Suite>) => {
                 {_it.component}
               </MockedProvider>
             )
-            if (_it.wait !== 0)
-              await waitUntilLoadingIsFinished(response.queryByText)
-            expect(response.container).toMatchSnapshot()
+            if (_it.wait_for_testid) {
+              await wait(
+                () =>
+                  _it.wait_for_testid &&
+                  response.queryByTestId(_it.wait_for_testid)
+              )
+            }
+            if (_it.snapshot !== false) {
+              expect(response.container).toMatchSnapshot()
+            }
             if (_it.callback) _it.callback(response)
           })
         })
@@ -41,9 +56,3 @@ export const runSuites = (suites: Array<Suite>) => {
     })
   })
 }
-
-const waitUntilLoadingIsFinished = (queryByText: any) =>
-  wait(() => {
-    const isLoading = queryByText('Loading') != null
-    expect(isLoading).toBe(false)
-  })

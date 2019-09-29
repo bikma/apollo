@@ -2,15 +2,37 @@
 
 exports[`App renders data 1`] = `
 <div>
-  <p>
-    example
+  <p
+    data-testid="mk1"
+  >
+    mk1
   </p>
+  <div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
+        Subscribe
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
 </div>
 `;
 
 exports[`App renders empty 1`] = `
 <div>
-  <p />
+  <div
+    data-testid="no-data"
+  >
+    No data
+  </div>
 </div>
 `;
 

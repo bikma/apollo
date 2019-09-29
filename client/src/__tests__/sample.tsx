@@ -2,13 +2,13 @@ import '@testing-library/jest-dom/extend-expect'
 
 import * as React from 'react'
 
-import { GET_VEHICLES } from '../queries'
+import { GET_USERS } from '../queries'
 import { RenderResult } from '@testing-library/react'
-import Vehicles from '../pages/Vehicles'
+import Users from '../pages/users'
 import { runSuites } from '../test-utils'
 
 const request = {
-  query: GET_VEHICLES
+  query: GET_USERS
 }
 
 const mocksWithSuccess = [
@@ -16,33 +16,27 @@ const mocksWithSuccess = [
     request,
     result: {
       data: {
-        vehicles: [
+        users: [
           {
-            backImg: 'example',
-            comments: 'example',
-            driverCondition: 12345,
-            driverLicense: '1234',
-            driverName: 'example',
-            driverPhone: 12345,
-            entryCondition: 12345,
-            frontImg: 'example',
+            dob: new Date(),
             id: 1,
-            inTime: 1568737336,
-            leftImg: 'example',
-            loadedCondition: 12345,
-            loadedWeight: 12345,
-            numberPlateImg: 'example',
-            outTime: 1568737336,
-            registrationNumber: 'example',
-            reportingTime: 1568737336,
-            rightImg: 'example',
-            safetyHelmet: 12345,
-            safetyInstructions: 12345,
-            safetyJacket: 12345,
-            unloadedCondition: 12345,
-            unloadedWeight: 12345,
-            vehicleType: 'example',
-            wheelsSecured: 12345
+            name: 'mk1',
+            phone: '9999999999'
+          }
+        ]
+      }
+    }
+  },
+  {
+    request,
+    result: {
+      data: {
+        users: [
+          {
+            dob: new Date(),
+            id: 2,
+            name: 'mk2',
+            phone: '9999999999'
           }
         ]
       }
@@ -54,7 +48,7 @@ const mocksWithEmpty = [
     request,
     result: {
       data: {
-        vehicles: [null]
+        users: []
       }
     }
   }
@@ -76,25 +70,28 @@ const suites = [
     its: [
       {
         callback: loading,
-        component: <Vehicles />,
+        component: <Users />,
+        loading: true,
         mocks: [],
-        name: 'renders loading',
-        wait: 0
+        name: 'renders loading'
       },
       {
-        component: <Vehicles />,
-        mocks: mocksWithSuccess,
-        name: 'renders data'
-      },
-      {
-        component: <Vehicles />,
+        component: <Users />,
         mocks: mocksWithError,
-        name: 'renders error'
+        name: 'renders error',
+        wait_for_testid: 'errror'
       },
       {
-        component: <Vehicles />,
+        component: <Users />,
         mocks: mocksWithEmpty,
-        name: 'renders empty'
+        name: 'renders empty',
+        wait_for_testid: 'no-data'
+      },
+      {
+        component: <Users />,
+        mocks: mocksWithSuccess,
+        name: 'renders data',
+        wait_for_testid: 'mk1'
       }
     ],
     name: 'App'

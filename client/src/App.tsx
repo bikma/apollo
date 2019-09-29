@@ -1,8 +1,8 @@
 import React from 'react'
-import Vehicles from './pages/Vehicles'
+import Users from './pages/users'
 
 const App: React.FC = () => {
-  return <Vehicles />
+  return <Users />
 }
 
 export default App
