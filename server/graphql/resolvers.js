@@ -19,20 +19,30 @@ const resolvers = {
     },
   }),
   Query: {
-    vehicles: () => [{
+    users: () => [{
       id: 1,
-      registrationNumber: 'AP09GP1234',
-      driverName: 'Jems',
-      driverPhone: '1234567890',
-      reportingTime: new Date()
+      name: 'mk',
+      dob: new Date(),
+      phone: '9999999999',
     },
     {
       id: 2,
-      registrationNumber: 'TS09GP4321',
-      driverName: 'bond',
-      driverPhone: '0987654321',
-      reportingTime: new Date()
+      name: 'bk',
+      dob: new Date(),
+      phone: '1234567890',
     }]
+  },
+  Mutation: {
+    subscribe: (parent, args, context, info) => {
+      // console.log(parent, args, context, info)
+      // return new Error("Error")
+      return {
+        id: 2,
+        name: 'bk',
+        dob: new Date(),
+        phone: '1234567890',
+      }
+    }
   }
 }
 
