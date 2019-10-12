@@ -22,7 +22,8 @@ function PaperComponent(props: PaperProps) {
 
 export default function Add() {
   const [open, setOpen] = React.useState(false)
-  const [mutate, { loading, error }] = useMutation<any>(SUBSCRIBE, {
+  const [phone, setPhone] = React.useState('')
+  const [mutate, { loading, error, data }] = useMutation<any>(SUBSCRIBE, {
     onCompleted({ subscribe }) {
       setOpen(false)
     },
@@ -40,10 +41,15 @@ export default function Add() {
   }
   if (loading) return <p>Loading...</p>
   if (error) return <p>{error.message}</p>
-  // if (data) return <p>subscribed!</p>
+  if (data) return <p>subscribed!</p>
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        data-testid="subscribe-here"
+        color="primary"
+        onClick={handleClickOpen}
+      >
         Subscribe
       </Button>
       <Dialog
@@ -57,17 +63,19 @@ export default function Add() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here.
+            To subscribe to this website, please enter your phone number here.
             We will send updates occasionally.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            placeholder="Phone Number"
             fullWidth
-            data-testid="email"
+            data-testid="phone"
+            onChange={event => {
+              setPhone(event.target.value)
+            }}
           />
         </DialogContent>
         <DialogActions>
@@ -75,8 +83,12 @@ export default function Add() {
             Cancel
           </Button>
           <Button
-            onClick={() => mutate({ variables: { phone: '1234567890' } })}
+            onClick={() => {
+              mutate({ variables: { phone } })
+            }}
             color="primary"
+            disabled={!phone || phone.length === 0}
+            data-testid="subscribe"
           >
             Subscribe
           </Button>
