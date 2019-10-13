@@ -8,7 +8,7 @@ const UPLOAD_PATH = 'uploads'
 let uploads = []
 
 fs.readdir('./uploads', (err, files)=>{
-  files.forEach( async (file, i) => {
+  files && files.forEach( async (file, i) => {
     uploads.push({
       id: i,
       name: file,

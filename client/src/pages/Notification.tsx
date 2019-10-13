@@ -102,7 +102,7 @@ export default function CustomizedSnackbars(props: Props2) {
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'center'
+          horizontal: 'left'
         }}
         open={open}
         // autoHideDuration={6000}
