@@ -17,7 +17,16 @@ const typeDefs = gql`
     dob: Date,
     phone: String,
   }
-
+  type PredictData {
+    match: String,
+    percentage: Float,
+    color: String
+  }
+  type Predict {
+    type: String,
+    image: String,
+    data: [PredictData]
+  }
   type Query {
   	users: [User],
     uploads: [File]
@@ -26,7 +35,7 @@ const typeDefs = gql`
   type Mutation {
     subscribe(phone: String!): User,
     upload(files: [Upload!]!): [File!]!
-    predict(file: String!, endpoint: String!): File,
+    predict(file: String!, endpoint: String!): Predict,
   }
 `
 

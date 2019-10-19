@@ -57,8 +57,40 @@ const resolvers = {
       return output
     },
     predict: async (parent, args, context, info) => {
-      console.log(args)
-      return 'done'
+      // console.log(args)
+      let iterate = Math.floor(Math.random() * 2) + 1
+      if(iterate === 1)
+        return {
+          type: 'classification',
+          data: [{
+            match: args.file.split("/").pop().split(".")[0],
+            percentage: 100
+          }]
+        }
+      else
+        return {
+          type: 'object_detection',
+          image: 'images/cat_clasification.png',//'images/obj_detection.png',
+          data: [{
+            match: 'Cat',
+            color: 'red',
+            percentage: 100
+          }
+          // },{
+          //   match: 'Dog',
+          //   color: 'blue',
+          //   percentage: 100
+          // },{
+          //   match: 'Duck',
+          //   color: 'green',
+          //   percentage: 100
+          // }
+          ]
+        }
+      // return [{
+      //   match: args.file.split("/").pop().split(".")[0],
+      //   percentage: 100
+      // }]
     }
   }
 }

@@ -1,27 +1,36 @@
-import React, { useCallback, useState } from 'react'
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
+import React, { useCallback, useState } from "react"
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles"
 
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Fab from '@material-ui/core/Fab'
-import Notification from './Notification'
-import PlayIcon from '@material-ui/icons/PlayArrow'
-import TextField from '@material-ui/core/TextField'
-import Tooltip from '@material-ui/core/Tooltip'
-import { gql } from 'apollo-boost'
-import { useMutation } from '@apollo/react-hooks'
+import Button from "@material-ui/core/Button"
+import CircularProgress from "@material-ui/core/CircularProgress"
+import Notification from "./Notification"
+import ObjectDetection from "./imageDetection"
+import Table from "./Table"
+import TextField from "@material-ui/core/TextField"
+import Tooltip from "@material-ui/core/Tooltip"
+import { gql } from "apollo-boost"
+import { useMutation } from "@apollo/react-hooks"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    fab: {
-      margin: theme.spacing(1),
-      position: 'absolute'
-      // backgroundColor: 'transparent'
-    },
     input: {
-      alignItems: 'center',
-      display: 'flex',
-      height: '100vh',
-      justifyContent: 'center'
+      alignItems: "center",
+      display: "flex",
+      height: "80vh",
+      marginTop: "15vh",
+      flexDirection: "column"
+    },
+    button: {
+      marginTop: "4vh",
+      minWidth: "100%",
+      borderRadius: 0
+    },
+    progress: {
+      color: "white",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginLeft: -12
     }
   })
 )
@@ -33,7 +42,13 @@ interface InputProps {
 export const PREDICT = gql`
   mutation predict($file: String!, $endpoint: String!) {
     predict(file: $file, endpoint: $endpoint) {
-      id
+      type
+      image
+      data {
+        percentage
+        color
+        match
+      }
     }
   }
 `
@@ -41,14 +56,7 @@ export const PREDICT = gql`
 const InputImg: React.FC<InputProps> = props => {
   const classes = useStyles()
   const [endpoint, setEndpoint] = useState()
-  const [mutate, { loading, error }] = useMutation<any>(PREDICT, {
-    onError(error) {
-      console.error(error)
-    },
-    update(cache, { data: { predict } }) {
-      console.error(predict)
-    }
-  })
+  const [mutate, { loading, error, data }] = useMutation<any>(PREDICT)
   const onSubmit = useCallback(() => {
     mutate({ variables: { file: props.selected, endpoint } })
   }, [endpoint, mutate, props.selected])
@@ -68,37 +76,54 @@ const InputImg: React.FC<InputProps> = props => {
               disableUnderline: true
             }}
             style={{
-              width: '60%',
-              position: 'absolute',
-              top: 2
+              width: "60%",
+              position: "absolute",
+              top: "2vh"
             }}
             onChange={e => setEndpoint(e.target.value)}
           />
           <img
-            style={{ height: '40%', width: '40%' }}
-            src={'http://0.0.0.0:8080/' + props.selected}
+            style={{ height: "40%", width: "40%" }}
+            src={"http://0.0.0.0:8080/" + props.selected}
             alt={props.selected}
           />
           <Tooltip
             title={
               endpoint
-                ? 'Start prediction'
-                : 'Enter endpoint to start predection'
+                ? "Start prediction"
+                : "Enter endpoint to start predection"
             }
             aria-label="predict"
           >
-            <span className={classes.fab}>
-              <Fab
-                aria-label="play"
-                disabled={endpoint ? false : true}
+            <span style={{ width: "40%", position: "relative" }}>
+              <Button
+                disabled={endpoint && !loading ? false : true}
+                variant="contained"
+                color="primary"
+                className={classes.button}
                 onClick={onSubmit}
               >
-                <PlayIcon />
-              </Fab>
+                Predict
+              </Button>
+              {loading && (
+                <CircularProgress size={24} className={classes.progress} />
+              )}
             </span>
           </Tooltip>
-          {loading && <CircularProgress size={68} className={classes.fab} />}
-          {error && <Notification variant={'error'} message={error.message} />}
+          {data &&
+            data.predict &&
+            data.predict.data &&
+            data.predict.type === "classification" && (
+              <Table predict={data.predict.data} />
+            )}
+          {data &&
+            data.predict &&
+            data.predict.data &&
+            data.predict.type === "object_detection" && (
+              <ObjectDetection predict={data.predict.data} />
+            )}
+          {loading && <CircularProgress size={68} />}
+          {error && <Notification variant={"error"} message={error.message} />}
         </React.Fragment>
       )}
     </div>

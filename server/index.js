@@ -12,6 +12,8 @@ const apollo = new ApolloServer({ typeDefs, resolvers })
 const app = express()
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
+app.use('/images', express.static(path.join(__dirname, 'images')))
+
 apollo.applyMiddleware({ app })
 
 let server = http.createServer(app)
