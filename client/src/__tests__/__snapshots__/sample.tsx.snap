@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders data 1`] = `
+<div>
+  <p
+    data-testid="mk1"
+  >
+    mk1
+  </p>
+  <div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
+        Subscribe
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`App renders empty 1`] = `
+<div>
+  <div
+    data-testid="no-data"
+  >
+    No data
+  </div>
+</div>
+`;
+
+exports[`App renders error 1`] = `
+<div>
+  <div
+    data-testid="error"
+  >
+    Network error: Something went wrong
+  </div>
+</div>
+`;
+
+exports[`App renders loading 1`] = `
+<div>
+  <div
+    data-testid="loading"
+  >
+    Loading
+  </div>
+</div>
+`;

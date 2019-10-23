@@ -1,8 +1,7 @@
+import PersistantDrawer from './components/PersistentDrawerLeft'
 import React from 'react'
-import Vehicles from './pages/Vehicles'
-
 const App: React.FC = () => {
-  return <Vehicles />
+  return <PersistantDrawer />
 }
 
 export default App

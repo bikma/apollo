@@ -4,35 +4,18 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   scalar Date
 
-  type Vehicle {
+  type User {
     id: ID,
-    registrationNumber: String,
-    reportingTime: Date,
-    inTime: Date,
-    outTime: Date,
-    vehicleType: String,
-    loadedWeight: Int,
-    unloadedWeight: Int,
-    entryCondition: Int,
-    driverCondition: Int,
-    comments: String,
-    loadedCondition: Int,
-    unloadedCondition: Int,
-    wheelsSecured: Int,
-    safetyJacket: Int,
-    safetyHelmet: Int,
-    safetyInstructions: Int,
-    numberPlateImg: String,
-    frontImg: String,
-    backImg: String,
-    rightImg: String,
-    leftImg: String,
-    driverName: String
-    driverPhone: Int,
-    driverLicense: String
+    name: String,
+    dob: Date,
+    phone: String,
+    status: String
   }
   type Query {
-  	vehicles: [Vehicle]
+  	users: [User],    
+  }
+  type Mutation {
+    subscribe (phone: String!): User
   }
 `
 

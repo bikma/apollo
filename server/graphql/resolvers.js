@@ -1,6 +1,20 @@
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 
+let users = [{
+    id: 0,
+    name: 'user 0',
+    dob: new Date(),
+    phone: '9999999999',
+    status: 'IN'
+  },
+  {
+    id: 1,
+    name: 'user 1',
+    dob: new Date(),
+    phone: '1234567890',
+    status: 'OUT'
+  }]
 const resolvers = {
   Date: new GraphQLScalarType({
     name: 'Date',
@@ -19,20 +33,33 @@ const resolvers = {
     },
   }),
   Query: {
-    vehicles: () => [{
-      id: 1,
-      registrationNumber: 'AP09GP1234',
-      driverName: 'Jems',
-      driverPhone: '1234567890',
-      reportingTime: new Date()
-    },
-    {
-      id: 2,
-      registrationNumber: 'TS09GP4321',
-      driverName: 'bond',
-      driverPhone: '0987654321',
-      reportingTime: new Date()
-    }]
+    users: () => {
+      let updated = users[Math.floor((Math.random() * users.length -1) + 1)]
+      if(updated.status === 'IN')
+        updated.status = 'OUT'
+      else
+        updated.status = 'IN'
+      return users
+    }
+  },
+  Mutation: {
+    subscribe: (parent, args, context, info) => {
+      // console.log(parent, args, context, info)
+      users.push({
+        id: users.length,
+        name: 'user ' + users.length,
+        dob: new Date(),
+        phone: args.phone,
+        status: 'IN'
+      })
+      return {
+        id: users.length,
+        name: 'user ' + users.length,
+        dob: new Date(),
+        phone: args.phone,
+        status: 'IN'
+      }
+    }
   }
 }
 
