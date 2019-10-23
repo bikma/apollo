@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import { gql } from "apollo-boost"
 
 export const GET_USERS = gql`
   query Users {
@@ -7,6 +7,7 @@ export const GET_USERS = gql`
       name
       dob
       phone
+      status
     }
   }
 `

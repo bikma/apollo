@@ -9,6 +9,7 @@ const typeDefs = gql`
     name: String,
     dob: Date,
     phone: String,
+    status: String
   }
   type Query {
   	users: [User],    
