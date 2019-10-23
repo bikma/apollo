@@ -2,12 +2,16 @@
 
 # start dev server
 cd server
+
 npm install
+
 npm run dev
 
 # start dev client
 cd client
+
 yarn install
+
 yarn start
 
 ## Typescript type generate
